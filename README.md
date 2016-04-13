@@ -15,85 +15,84 @@ npm i client-ajax --save
 ## Usage
 
 ```js
-	
-	var ajax = require('client-ajax') 
-	// var ajax = require('client-ajax').setDefault()
+var ajax = require('client-ajax') 
+// var ajax = require('client-ajax').setDefault()
 
-	var data = {a: "a", b: {b: "b"}, c: ["c"]}
-	
-	// $.ajax
-	ajax({
-		url: "",
-		method: "POST",
-	 	data: data,
-	 	before: function () {},
-	 	success: function (resp) {
-	 		console.log(resp.body)
-	 	},
-	 	error: function (err) {
-	 		console.error(err)
-	 	},
-	 	complete: function () {}
-	})
+var data = {a: "a", b: {b: "b"}, c: ["c"]}
 
-	// callback
-	ajax({
-		url: "",
-		method: "POST",
-		data: data
-	}, function (err, resp) {
-		if (err) return console.error(err)
-	 	console.log(resp.body)
-	})
+// $.ajax
+ajax({
+	url: "",
+	method: "POST",
+ 	data: data,
+ 	before: function () {},
+ 	success: function (resp) {
+ 		console.log(resp.body)
+ 	},
+ 	error: function (err) {
+ 		console.error(err)
+ 	},
+ 	complete: function () {}
+})
 
-	// Promise
-	ajax({
-		url: "",
-		method: "POST",
-		data: data
-	}).then(function (resp) {
-		console.log(resp.body)
-	}, function (err) {
-		console.error(err)
-	})
+// callback
+ajax({
+	url: "",
+	method: "POST",
+	data: data
+}, function (err, resp) {
+	if (err) return console.error(err)
+ 	console.log(resp.body)
+})
 
-	// url template
-	ajax({url: "/:id", id: 1) // /1
-	ajax({url: "/{id}", id: 1}) // /1
-	
-	// querystring
-	ajax({url: "", data: data}) // ?a=a&b[b]=b&c[]=c
+// Promise
+ajax({
+	url: "",
+	method: "POST",
+	data: data
+}).then(function (resp) {
+	console.log(resp.body)
+}, function (err) {
+	console.error(err)
+})
 
-	// set default options
-	ajax.setDefault({dataType: "json"}) // set default data to request payload
-	ajax.setDefault({body: true}) // return body instead of response
+// url template
+ajax({url: "/:id", id: 1}) // /1
+ajax({url: "/{id}", id: 1}) // /1
 
-	// set error interceptor
-	ajax.setErrorInterceptor(function (err) {
-		console.error(err)
-	})
-	
-	// simple
-	ajax.get("", data, function (err, resp){})
-	ajax.post("", data).then(function (resp) {}, function (err) {})
+// querystring
+ajax({url: "", data: data}) // ?a=a&b[b]=b&c[]=c
+
+// set default options
+ajax.setDefault({dataType: "json"}) // set default data to request payload
+ajax.setDefault({body: true}) // return body instead of response
+
+// set error interceptor
+ajax.setErrorInterceptor(function (err) {
+	console.error(err)
+})
+
+// simple
+ajax.get("", data, function (err, resp){})
+ajax.post("", data).then(function (resp) {}, function (err) {})
 ```
 
 ## API
 ### options
 | key | description | type | optional values | default value |
 |-----|------|-----|-------|-------|
-| url | request url<br/>support url template(:param/{param}) | string | | "" |
-| method | request method | string | "GET","POST","PUT","HEAD","DELETE","PATCH" | "GET" |
-| async | request data | object | | {} |
-| data | request data | object | | {} |
-| dataType | request data type<br/>effective while method is POST/PUT/DELETE | string | "form"(Form)<br/>"json"(Payload)<br/>"formdata"(FormData) | "form" |
-| body | return body instead of response | boolean | true, false | false |
-| type | response type<br/>XMLHttpRequest.responseType | string | "","arraybuffer","blob","document","json","text" |  |
-| headers | request headers | object | | {} |
+| url | url | string | | "" |
+| method | method | string | "GET","POST","PUT","HEAD","DELETE","PATCH" | "GET" |
+| async | is async  | boolean | true,false | true |
+| data | data | object | | {} |
+| format | data format | string | "form","json","formdata" | "form" |
+| body | is body returned | boolean | true, false | false |
+| type | response type | string | "","arraybuffer","blob","document","json","text" | "" |
+| headers | headers | object | | {} |
 | before | before send | function | | noop |
-| success | request succeed | function |  | noop |
-| error | request made mistakes | function |  | noop |
-| complete | request completed | function |  | noop |
+| success | succeed | function |  | noop |
+| error | made mistakes | function |  | noop |
+| complete | completed | function |  | noop |
 
 ## License
 

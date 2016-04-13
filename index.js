@@ -17,7 +17,7 @@
  *			@Class Object
  *			@default {}
  *			@description request data, append to query while method in [GET HEAD PATCH]
- *		@key dataType
+ *		@key format
  *			@Class Enum('form', 'json', 'formdata')
  *			@default form
  *			@description request data type, effective while method in [POST PUT DELETE]
@@ -111,7 +111,7 @@
 	}
 
 	function isValidKey (key) {
-		return /^url|method|async|data|dataType|body|type|headers|before|success|error|complete$/.test(key)
+		return /^url|method|async|data|format|body|type|headers|before|success|error|complete$/.test(key)
 	}
 
 	function querystring (data) {
@@ -180,7 +180,7 @@
 
 		// handle data
 		if (method === "POST" || method === "PUT" || method === "DELETE") {
-			switch (options.dataType) {
+			switch (options.format) {
 				case "json":
 					options.headers['Content-Type'] = 'application/json;charset=UTF-8'
 					data = JSON.stringify(options.data)

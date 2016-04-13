@@ -40,7 +40,7 @@ ajax({
 })
 
 // url template
-ajax({url: "/:id", id: 1) // /1
+ajax({url: "/:id", id: 1}) // /1
 ajax({url: "/{id}", id: 1}) // /1
 
 // querystring
