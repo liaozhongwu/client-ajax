@@ -1,0 +1,23 @@
+{
+  "name": "client-ajax",
+  "version": "0.1.0",
+  "description": "ajax",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liaozhongwu95/client-ajax.git"
+  },
+  "keywords": [
+    "ajax",
+    "xhr"
+  ],
+  "author": {
+    "name": "liaozhongwu",
+    "email": "liaozhongwu95@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/liaozhongwu95/client-ajax/issues"
+  },
+  "homepage": "https://github.com/liaozhongwu95/client-ajax#readme"
+}
