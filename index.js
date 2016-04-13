@@ -21,6 +21,9 @@
  *			@Class Enum('form', 'json', 'formdata')
  *			@default form
  *			@description request data type, effective while method in [POST PUT DELETE]
+ *		@key timeout
+ *			@Class Number
+ *			@description request timeout
  *    @key body
  *			@Class Boolean
  *			@default false
@@ -111,7 +114,7 @@
 	}
 
 	function isValidKey (key) {
-		return /^url|method|async|data|format|body|type|headers|before|success|error|complete$/.test(key)
+		return /^url|method|async|data|format|timeout|body|type|headers|before|success|error|complete$/.test(key)
 	}
 
 	function querystring (data) {
@@ -150,6 +153,8 @@
 		, data = null
 		, options = {}
 		, callback
+		, isTimeout = false
+		, isFinished = false
 		, err
 
 		// handle arguments
@@ -205,7 +210,8 @@
 					qs && (data = qs)
 					break
 			}
-		} else {
+		} 
+		else {
 			qs = querystring(options.data)
 			qs && (url += (url.indexOf('?') >= 0 ? '&' : '?') + qs)
 		}
@@ -232,13 +238,16 @@
 		options.type && (http.responseType = options.type)
 
 		function send (resolve, reject) {
+
 			http.onreadystatechange = function () {
 				// complete
-				if (http.readyState === 4) {
+				if (http.readyState === 4 && !isTimeout) {
+					isFinished = true
 					var res = null
 					try {
 						http.body = JSON.parse(http.response)
-					} catch(e) {
+					} 
+					catch(e) {
 						http.body = http.response
 					}
 					options.body ? (res = http.body) : (res = http)
@@ -247,7 +256,8 @@
 						isFunction(options.success) && options.success(res)
 						isFunction(callback) && callback(null, res)
 						isFunction(resolve) && resolve(res)
-					} else {
+					} 
+					else {
 						err = new Error('Request Error, Response Code: ' + http.status)
 						err.code = http.status
 						http.error = err
@@ -262,10 +272,29 @@
 				}
 			}
 
-			// 调用前置事件处理
+			// call before send
 			isFunction(options.before) && options.before()
 
-			// 发送数据
+			// set timeout
+			if (options.timeout) {
+				setTimeout(function () {
+					if (!isFinished) {
+						isTimeout = true
+						err = new Error('Request Timeout, Response Code: 408')
+						err.code = 408
+						http.error = err
+						forEach(errorInterceptors, function (interceptor) {
+							isFunction(interceptor) && interceptor(err, http)
+						})
+						isFunction(options.error) && options.error(err)
+						isFunction(callback) && callback(err, http)
+						isFunction(reject) && reject(err)
+						isFunction(options.complete) && options.complete(http)
+					}
+				}, options.timeout)
+			}
+
+			// send data
 			http.send(data)
 		}
 

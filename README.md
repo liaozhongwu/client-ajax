@@ -11,6 +11,9 @@
 npm i client-ajax --save
 ```
 
+```
+<script type="text/javascript" src="/ajax.js"></script>
+```
 
 ## Usage
 
@@ -35,16 +38,6 @@ ajax({
  	complete: function () {}
 })
 
-// callback
-ajax({
-	url: "",
-	method: "POST",
-	data: data
-}, function (err, resp) {
-	if (err) return console.error(err)
- 	console.log(resp.body)
-})
-
 // Promise
 ajax({
 	url: "",
@@ -56,6 +49,52 @@ ajax({
 	console.error(err)
 })
 
+// callback
+ajax({
+	url: "",
+	method: "POST",
+	data: data
+}, function (err, resp) {
+	if (err) return console.error(err)
+ 	console.log(resp.body)
+})
+
+// request payload
+ajax({
+	url: "",
+	method: "POST",
+	data: data,
+	format: "json"
+}).then(function (resp) {
+	console.log(resp.body)
+}, function (err) {
+	console.log(err)
+})
+
+// request timeout
+ajax({
+	url: "",
+	method: "POST",
+	data: data,
+	timeout: 3000
+}).then(function (resp) {
+	console.log(resp.body)
+}, function (err) {
+	console.log(err)
+})
+
+// return body
+ajax({
+	url: "",
+	method: "POST",
+	data: data,
+	body: true
+}).then(function (body) {
+	console.log(body)
+}, function (err) {
+	console.log(err)
+})
+
 // url template
 ajax({url: "/:id", id: 1}) // /1
 ajax({url: "/{id}", id: 1}) // /1
@@ -64,8 +103,11 @@ ajax({url: "/{id}", id: 1}) // /1
 ajax({url: "", data: data}) // ?a=a&b[b]=b&c[]=c
 
 // set default options
-ajax.setDefault({dataType: "json"}) // set default data to request payload
-ajax.setDefault({body: true}) // return body instead of response
+ajax.setDefault({
+	format: "json", // set default format
+	body: true, // set default body returned
+	timeout: 3000 // set default timeout
+})
 
 // set error interceptor
 ajax.setErrorInterceptor(function (err) {
@@ -81,18 +123,27 @@ ajax.post("", data).then(function (resp) {}, function (err) {})
 ### options
 | key | description | type | optional values | default value |
 |-----|------|-----|-------|-------|
-| url | url | string | | "" |
-| method | method | string | "GET","POST","PUT","HEAD","DELETE","PATCH" | "GET" |
+| url | request url | string | | "" |
+| method | request method | string | "GET","POST","PUT","HEAD","DELETE","PATCH" | "GET" |
 | async | is async  | boolean | true,false | true |
-| data | data | object | | {} |
+| data | request data | object | | {} |
 | format | data format | string | "form","json","formdata" | "form" |
+| timeout | request timeout | number | | |
 | body | is body returned | boolean | true, false | false |
 | type | response type | string | "","arraybuffer","blob","document","json","text" | "" |
-| headers | headers | object | | {} |
+| headers | request headers | object | | {} |
 | before | before send | function | | noop |
-| success | succeed | function |  | noop |
-| error | made mistakes | function |  | noop |
-| complete | completed | function |  | noop |
+| success | request succeed | function |  | noop |
+| error | make mistakes | function |  | noop |
+| complete | request complete | function |  | noop |
+
+## Notice
+
+The package should be used in broswer.
+
+You can use it with broswerify or webpack, or simply copy source code with script tag to your project
+
+If you can't make sure that Promise is supported in broswer, please use callback instead of Promise
 
 ## License
 
