@@ -201,8 +201,8 @@
 								data.append(key, value)
 							})
 						}
+						break
 					}
-					break
 				case "form":
 				default:
 					options.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
