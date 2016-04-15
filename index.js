@@ -54,10 +54,7 @@
  
 (function () {
 
-	if (typeof window === 'undefined') {
-		throw new Error('The ajax should be used in broswer.')
-	}
-
+	// create default options
 	var defaultOptions = {
 		url: ''
 		, method: 'GET'
@@ -67,6 +64,7 @@
 	}
 	,	errorInterceptors = []
 
+	// util function
 	function forEach (obj, callback) {
 		if (!isFunction(callback)) return
 		if (isArray(obj)) {
@@ -145,7 +143,7 @@
 		return null
 	}
 
- 	// main method
+ 	// main funciton
 	function _request () {
 		var url = ''
 		,	qs = ""
