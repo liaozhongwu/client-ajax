@@ -29,8 +29,8 @@ ajax({
 	method: "POST",
  	data: data,
  	before: function () {},
- 	success: function (resp) {
- 		console.log(resp.body)
+ 	success: function (body) {
+ 		console.log(body)
  	},
  	error: function (err) {
  		console.error(err)
@@ -43,8 +43,8 @@ ajax({
 	url: "",
 	method: "POST",
 	data: data
-}).then(function (resp) {
-	console.log(resp.body)
+}).then(function (body) {
+	console.log(body)
 }, function (err) {
 	console.error(err)
 })
@@ -54,9 +54,9 @@ ajax({
 	url: "",
 	method: "POST",
 	data: data
-}, function (err, resp) {
+}, function (err, body) {
 	if (err) return console.error(err)
- 	console.log(resp.body)
+ 	console.log(body)
 })
 
 // request payload
@@ -65,8 +65,8 @@ ajax({
 	method: "POST",
 	data: data,
 	format: "json"
-}).then(function (resp) {
-	console.log(resp.body)
+}).then(function (body) {
+	console.log(body)
 }, function (err) {
 	console.log(err)
 })
@@ -77,18 +77,28 @@ ajax({
 	method: "POST",
 	data: data,
 	timeout: 3000
-}).then(function (resp) {
-	console.log(resp.body)
+}).then(function (body) {
+	console.log(body)
 }, function (err) {
 	console.log(err)
 })
 
-// return body
+// return response
 ajax({
 	url: "",
 	method: "POST",
 	data: data,
-	body: true
+	origin: true
+}).then(function (resp) {
+	console.log(resp)
+}, function (err) {
+	console.log(err)
+})
+
+// return html
+ajax({
+	url: "",
+	type: "text"
 }).then(function (body) {
 	console.log(body)
 }, function (err) {
@@ -115,8 +125,8 @@ ajax.setErrorInterceptor(function (err) {
 })
 
 // simple
-ajax.get("", data, function (err, resp){})
-ajax.post("", data).then(function (resp) {}, function (err) {})
+ajax.get("", data, function (err, body){})
+ajax.post("", data).then(function (body) {}, function (err) {})
 ```
 
 ## API
@@ -129,8 +139,8 @@ ajax.post("", data).then(function (resp) {}, function (err) {})
 | data | request data | object | | {} |
 | format | data format | string | "form","json","formdata" | "form" |
 | timeout | request timeout | number | | |
-| body | is body returned | boolean | true, false | false |
-| type | response type | string | "","arraybuffer","blob","document","json","text" | "" |
+| origin | return response | boolean | true, false | false |
+| type | response type | string | "","arraybuffer","blob","document","json","text" | "json" |
 | headers | request headers | object | | {} |
 | before | before send | function | | noop |
 | success | request succeed | function |  | noop |
@@ -148,3 +158,10 @@ If you can't make sure that Promise is supported in broswer, please use callback
 ## License
 
 client-ajax is released under the MIT license.
+
+## Change Log
+0.1.1 - initial
+
+0.1.4 - add options.timeout
+
+0.1.5 - default return body, replace options.body with options.origin

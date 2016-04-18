@@ -24,10 +24,10 @@
  *		@key timeout
  *			@Class Number
  *			@description request timeout
- *    @key body
+ *    @key origin
  *			@Class Boolean
  *			@default false
- *			@description return response or return body
+ *			@description return origin response instead of body
  *		@key type  
  *			@Class Enum("", "arraybuffer", "blob", "document", "json", "text")
  *			@default json
@@ -60,6 +60,8 @@
 		, method: 'GET'
 		, async: true
 		, data: {}
+		, origin: false
+		, type: "json"
 		, headers: {}
 	}
 	,	errorInterceptors = []
@@ -241,14 +243,9 @@
 				// complete
 				if (http.readyState === 4 && !isTimeout) {
 					isFinished = true
-					var res = null
-					try {
-						http.body = JSON.parse(http.response)
-					} 
-					catch(e) {
-						http.body = http.response
-					}
-					options.body ? (res = http.body) : (res = http)
+					var res = http.response
+					http.body = http.response
+					options.origin && (res = http)
 
 					if (http.status < 400 && http.status >= 100) {
 						isFunction(options.success) && options.success(res)

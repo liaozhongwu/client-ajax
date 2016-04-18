@@ -9,8 +9,8 @@ ajax({
 	method: "POST",
  	data: data,
  	before: function () {},
- 	success: function (resp) {
- 		console.log(resp.body)
+ 	success: function (body) {
+ 		console.log(body)
  	},
  	error: function (err) {
  		console.error(err)
@@ -23,8 +23,8 @@ ajax({
 	url: "",
 	method: "POST",
 	data: data
-}).then(function (resp) {
-	console.log(resp.body)
+}).then(function (body) {
+	console.log(body)
 }, function (err) {
 	console.error(err)
 })
@@ -34,9 +34,9 @@ ajax({
 	url: "",
 	method: "POST",
 	data: data
-}, function (err, resp) {
+}, function (err, body) {
 	if (err) return console.error(err)
- 	console.log(resp.body)
+ 	console.log(body)
 })
 
 // request payload
@@ -45,8 +45,8 @@ ajax({
 	method: "POST",
 	data: data,
 	format: "json"
-}).then(function (resp) {
-	console.log(resp.body)
+}).then(function (body) {
+	console.log(body)
 }, function (err) {
 	console.log(err)
 })
@@ -57,18 +57,28 @@ ajax({
 	method: "POST",
 	data: data,
 	timeout: 3000
-}).then(function (resp) {
-	console.log(resp.body)
+}).then(function (body) {
+	console.log(body)
 }, function (err) {
 	console.log(err)
 })
 
-// return body
+// return response
 ajax({
 	url: "",
 	method: "POST",
 	data: data,
-	body: true
+	origin: true
+}).then(function (resp) {
+	console.log(resp)
+}, function (err) {
+	console.log(err)
+})
+
+// return html
+ajax({
+	url: "",
+	type: "text"
 }).then(function (body) {
 	console.log(body)
 }, function (err) {
@@ -95,5 +105,5 @@ ajax.setErrorInterceptor(function (err) {
 })
 
 // simple
-ajax.get("", data, function (err, resp){})
-ajax.post("", data).then(function (resp) {}, function (err) {})
+ajax.get("", data, function (err, body){})
+ajax.post("", data).then(function (body) {}, function (err) {})
