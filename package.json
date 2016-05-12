@@ -1,11 +1,11 @@
 {
   "name": "client-ajax",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "a simple ajax lib",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/liaozhongwu95/client-ajax.git"
+    "url": "git+https://github.com/liaozhongwu/client-ajax.git"
   },
   "keywords": [
     "ajax",
@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/liaozhongwu95/client-ajax/issues"
+    "url": "https://github.com/liaozhongwu/client-ajax/issues"
   },
-  "homepage": "https://github.com/liaozhongwu95/client-ajax#readme"
+  "homepage": "https://github.com/liaozhongwu/client-ajax#readme"
 }
